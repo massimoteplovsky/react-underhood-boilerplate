@@ -1,11 +1,11 @@
-import OwnReact from "../src";
-import List from "./List/List";
-import { randomInteger, shuffleArray } from "../src/service/helpers";
+import OwnReact from '../src';
+import List from './List/List';
+import { randomInteger, shuffleArray } from '../src/service/helpers';
 
-const letters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
-const lettersList = letters.split("");
+const letters = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
+const lettersList = letters.split('');
 
-const root = document.getElementById("root");
+const root = document.getElementById('root');
 
 setInterval(() => {
   let startPosition = randomInteger(0, lettersList.length);

@@ -1,15 +1,15 @@
-import reconcile from "./reconcile";
+import reconcile from './reconcile';
 
 let rootInstance = null;
 
 class OwnReact {
   static createElement(type, props, ...children) {
-    const createTextElement = text => {
+    const createTextElement = (text) => {
       return {
-        type: "TEXT ELEMENT",
+        type: 'TEXT ELEMENT',
         props: {
-          nodeValue: text
-        }
+          nodeValue: text,
+        },
       };
     };
 
@@ -17,18 +17,18 @@ class OwnReact {
       ...props,
       children: children
         .flat()
-        .map(child =>
-          typeof child === "object" ? child : createTextElement(child)
-        )
+        .map((child) =>
+          typeof child === 'object' ? child : createTextElement(child)
+        ),
     };
 
-    if (typeof type === "function") {
+    if (typeof type === 'function') {
       return type(generatedProps);
     }
 
     return {
       type,
-      props: generatedProps
+      props: generatedProps,
     };
   }
 
