@@ -7,7 +7,7 @@ test('jsx works', () => {
       prop1: 'prop value',
       children: [
         {
-          type: 'TEXT_ELEMENT',
+          type: 'TEXT ELEMENT',
           props: {
             nodeValue: 'Hello, World!',
           },
