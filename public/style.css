@@ -1,0 +1,10 @@
+html {
+    font-size: 10px;
+}
+
+.list-container {
+    display: flex;
+    justify-content: space-around;
+    flex-grow: 1;
+    font-size: 3rem;
+}
