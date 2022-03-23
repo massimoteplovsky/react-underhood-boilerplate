@@ -1,5 +1,30 @@
-import OwnReact from '../src';
+import OwnReact from "../src";
+import List from "./List/List";
+import { changeArrayItemsOrder } from "../src/service/helpers";
 
-const App = <h1 prop1="prop value">Hello, World!</h1>;
+const LETTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+
+class App extends OwnReact.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      lettersList: LETTERS.split("")
+    };
+    this.handleChangeLettersOrder();
+  }
+
+  handleChangeLettersOrder() {
+    setInterval(() => {
+      this.setState({
+        lettersList: changeArrayItemsOrder(this.state.lettersList)
+      });
+    }, 1000);
+  }
+
+  render() {
+    const { lettersList } = this.state;
+    return <List letters={lettersList} />;
+  }
+}
 
 export default App;
