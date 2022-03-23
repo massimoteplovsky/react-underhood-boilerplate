@@ -2,6 +2,7 @@ import OwnReact from "../src";
 import List from "./List/List";
 import { changeArrayItemsOrder } from "../src/service/helpers";
 
+
 const LETTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
 class App extends OwnReact.Component {
