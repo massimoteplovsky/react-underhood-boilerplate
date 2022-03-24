@@ -1,18 +1,19 @@
-import App from '../samples/App';
+import App from "../samples/App";
 
-test('jsx works', () => {
+test("jsx works", () => {
   expect(App).toEqual({
-    type: 'h1',
+    type: "h1",
     props: {
-      prop1: 'prop value',
+      prop1: "prop value",
       children: [
         {
-          type: 'TEXT ELEMENT',
+          type: "TEXT_ELEMENT",
           props: {
-            nodeValue: 'Hello, World!',
-          },
-        },
-      ],
-    },
+            nodeValue: "Hello, World!"
+          }
+        }
+      ]
+    }
   });
 });
+

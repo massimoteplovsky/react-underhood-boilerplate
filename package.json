@@ -14,12 +14,6 @@
     "Ruslan Baigunussov <ruslan.baigunussov@csssr.com>"
   ],
   "license": "ISC",
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint -- --fix",
-      "pre-push": "npm run test"
-    }
-  },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/polyfill": "^7.8.3",
@@ -35,7 +29,7 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jest": "^23.8.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^2.4.0",
     "husky": "^4.2.3",

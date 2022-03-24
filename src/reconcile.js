@@ -3,6 +3,7 @@ import updateDomProperties from "./updateDomProperties";
 
 function reconcile(parentDom, instance, element) {
   if (instance === null) {
+    // Создаём инстанс
     const newInstance = instantiate(element);
     parentDom.appendChild(newInstance.dom);
     return newInstance;
@@ -12,17 +13,26 @@ function reconcile(parentDom, instance, element) {
     parentDom.removeChild(instance.dom);
     return null;
   }
-  if (instance.element.type === element.type) {
+  if (
+    (instance.element.type === element.type &&
+      !instance.element.type.isClassComponent) ||
+    typeof element.type === "string"
+  ) {
     // Обновляем инстанс
     updateDomProperties(instance.dom, instance.element.props, element.props);
     instance.childInstances = reconcileChildren(instance, element);
     instance.element = element;
     return instance;
   }
-  // Заменяем инстанс
-  const newInstance = instantiate(element);
-  parentDom.replaceChild(newInstance.dom, instance.dom);
-  return newInstance;
+  // Обновляем инстанс компонента
+  instance.publicInstance.props = element.props;
+  const childElement = instance.publicInstance.render();
+  const oldChildInstance = instance.childInstance;
+  const childInstance = reconcile(parentDom, oldChildInstance, childElement);
+  instance.dom = childInstance.dom;
+  instance.childInstance = childInstance;
+  instance.element = element;
+  return instance;
 }
 
 function reconcileChildren(instance, element) {
@@ -37,7 +47,7 @@ function reconcileChildren(instance, element) {
     const newChildInstance = reconcile(dom, childInstance, childElement);
     newChildInstances.push(newChildInstance);
   }
-  return newChildInstances.filter(childInstance => childInstance != null);
+  return newChildInstances.filter(childInstance => childInstance !== null);
 }
 
 export default reconcile;
