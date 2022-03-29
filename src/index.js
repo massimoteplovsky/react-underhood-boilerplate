@@ -32,7 +32,6 @@ const createElement = (type, props, ...children) => {
 };
 
 const render = (element, container) => {
-  console.log();
   const prevInstance = rootInstance;
   const nextInstance = reconcile(container, prevInstance, element);
   rootInstance = nextInstance;
