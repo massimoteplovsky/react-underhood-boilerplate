@@ -1,5 +1,5 @@
 import OwnReact from "../src";
-import List from "./List/List";
+import List from "./List";
 
 const App = () => {
   return <List />;

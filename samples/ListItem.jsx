@@ -1,4 +1,4 @@
-import OwnReact from "../../src/index";
+import OwnReact from "../src";
 
 const ListItem = ({ letter }) => {
   return <div>{letter}</div>;
