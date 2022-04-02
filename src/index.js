@@ -1,4 +1,7 @@
 import reconcile from "./reconcile";
+import performancer from "./service/performancer";
+
+performancer.startTracking();
 
 let rootInstance = null;
 
@@ -32,15 +35,21 @@ const createElement = (type, props, ...children) => {
 };
 
 const render = (element, container) => {
+  performancer.start("Render component");
   const prevInstance = rootInstance;
   const nextInstance = reconcile(container, prevInstance, element);
   rootInstance = nextInstance;
+  performancer.end("Render component");
+  performancer.measure("Render component");
 };
 
 const updateInstance = internalInstance => {
+  performancer.start("Update component instance");
   const parentDom = internalInstance.dom.parentNode;
   const { element } = internalInstance;
   reconcile(parentDom, internalInstance, element);
+  performancer.end("Update component instance");
+  performancer.measure("Update component instance");
 };
 
 class Component {
@@ -62,5 +71,7 @@ const OwnReact = {
   createElement,
   Component
 };
+
+performancer.stopTracking();
 
 export default OwnReact;
