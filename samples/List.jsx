@@ -25,8 +25,8 @@ class List extends OwnReact.Component {
   handleChange(e) {
     const { lettersList } = this.state;
     const userString = e.target.value.replace(/([^а-яё])/gi, "").toLowerCase();
-    const newlLettersList = [...new Set([...userString, ...lettersList])];
-    this.setState({ lettersList: newlLettersList });
+    const newLettersList = [...new Set([...userString, ...lettersList])];
+    this.setState({ lettersList: newLettersList });
   }
 
   render() {

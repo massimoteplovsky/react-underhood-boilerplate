@@ -3,8 +3,8 @@
   "plugins": ["prettier", "jest"],
   "parser": "babel-eslint",
   "env": {
-    "browser": true
-    // "jest/globals": true
+    "browser": true,
+    "jest/globals": true
   },
   "settings": {
     "react": {
@@ -21,6 +21,7 @@
     "react/jsx-filename-extension": "off",
     "react/no-deprecated": "off",
     "import/prefer-default-export": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off"
   }
 }
