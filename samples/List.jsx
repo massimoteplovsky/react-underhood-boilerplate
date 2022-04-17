@@ -5,7 +5,7 @@ import { changeArrayItemsOrder } from "../src/service/helpers";
 
 const LETTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
-class List extends OwnReact.Component {
+class List extends OwnReact.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

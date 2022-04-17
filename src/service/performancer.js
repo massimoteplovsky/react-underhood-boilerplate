@@ -3,10 +3,10 @@ const initialState = {
 };
 
 class Performancer {
-  constructor() {
+  constructor(isDevMode) {
     this.statisticsData = initialState;
     this.isStatisticsOn = false;
-    this.isDevMode = process.env.NODE_ENV !== "production";
+    this.isDevMode = isDevMode;
   }
 
   start(name) {
@@ -31,8 +31,6 @@ class Performancer {
     this.statisticsData.totalTime[name] = this.statisticsData.totalTime[name]
       ? this.statisticsData.totalTime[name] + duration
       : duration;
-
-    this.print();
 
     return this.statisticsData;
   }
@@ -62,6 +60,7 @@ class Performancer {
   }
 }
 
-const performancer = new Performancer();
+const isDevMode = process.env.NODE_ENV !== "production";
+const performancer = new Performancer(isDevMode);
 
 export default performancer;

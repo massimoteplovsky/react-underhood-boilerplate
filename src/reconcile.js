@@ -1,25 +1,16 @@
 import instantiate from "./instantiate";
 import updateDomProperties from "./updateDomProperties";
-import performancer from "./service/performancer";
-
-performancer.startTracking();
 
 function reconcile(parentDom, instance, element) {
   if (instance === null) {
     // Создаём инстанс
-    performancer.start("Create instance");
     const newInstance = instantiate(element);
     parentDom.appendChild(newInstance.dom);
-    performancer.end("Create instance");
-    performancer.measure("Create instance");
     return newInstance;
   }
   if (element === null) {
     // Убираем инстанс
-    performancer.start("Remove instance");
     parentDom.removeChild(instance.dom);
-    performancer.end("Remove instance");
-    performancer.measure("Remove instance");
     return null;
   }
   if (
@@ -28,26 +19,28 @@ function reconcile(parentDom, instance, element) {
     typeof element.type === "string"
   ) {
     // Обновляем инстанс
-    performancer.start("Update DOM instance");
     updateDomProperties(instance.dom, instance.element.props, element.props);
     instance.childInstances = reconcileChildren(instance, element);
     instance.element = element;
-    performancer.end("Update DOM instance");
-    performancer.measure("Update DOM instance");
     return instance;
   }
 
   // Обновляем инстанс компонента
-  performancer.start("Update instance");
-  instance.publicInstance.props = element.props;
-  const childElement = instance.publicInstance.render();
-  const oldChildInstance = instance.childInstance;
-  const childInstance = reconcile(parentDom, oldChildInstance, childElement);
-  instance.dom = childInstance.dom;
-  instance.childInstance = childInstance;
-  instance.element = element;
-  performancer.end("Update instance");
-  performancer.measure("Update instance");
+  if (
+    instance.publicInstance.shouldComponentUpdate(
+      element.props,
+      instance.publicInstance.state
+    )
+  ) {
+    instance.publicInstance.props = element.props;
+    const childElement = instance.publicInstance.render();
+    const oldChildInstance = instance.childInstance;
+    const childInstance = reconcile(parentDom, oldChildInstance, childElement);
+    instance.dom = childInstance.dom;
+    instance.childInstance = childInstance;
+    instance.element = element;
+  }
+
   return instance;
 }
 
@@ -66,7 +59,5 @@ function reconcileChildren(instance, element) {
 
   return newChildInstances.filter(childInstance => childInstance !== null);
 }
-
-performancer.stopTracking();
 
 export default reconcile;
