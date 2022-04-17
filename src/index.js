@@ -1,7 +1,5 @@
 import reconcile from "./reconcile";
-import performancer from "./service/performancer";
-
-performancer.startTracking();
+import { shallowEqual } from "./service/helpers";
 
 let rootInstance = null;
 
@@ -35,43 +33,55 @@ const createElement = (type, props, ...children) => {
 };
 
 const render = (element, container) => {
-  performancer.start("Render component");
   const prevInstance = rootInstance;
   const nextInstance = reconcile(container, prevInstance, element);
   rootInstance = nextInstance;
-  performancer.end("Render component");
-  performancer.measure("Render component");
 };
 
 const updateInstance = internalInstance => {
-  performancer.start("Update component instance");
   const parentDom = internalInstance.dom.parentNode;
   const { element } = internalInstance;
   reconcile(parentDom, internalInstance, element);
-  performancer.end("Update component instance");
-  performancer.measure("Update component instance");
 };
 
 class Component {
   constructor(props) {
-    this.props = props;
+    this.props = props || {};
     this.state = this.state || {};
   }
 
   setState(partialState) {
+    this.prevState = { ...this.state };
     this.state = { ...this.state, ...partialState };
+    this.__internalInstance.state = { ...this.prevState };
     updateInstance(this.__internalInstance);
+  }
+
+  shouldComponentUpdate() {
+    return true;
   }
 }
 
 Component.isClassComponent = true;
 
+class PureComponent extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      !shallowEqual(this.prevState, nextState) ||
+      !shallowEqual(this.props, nextProps)
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+}
+
 const OwnReact = {
   render,
   createElement,
-  Component
+  Component,
+  PureComponent
 };
-
-performancer.stopTracking();
 
 export default OwnReact;
